@@ -1,46 +1,51 @@
-<!DOCTYPE html>
-<html ng-app="meehan">
+<!doctype html>
+<html ng-app="meehan" class="no-js" lang="en-GB">
   <head>
-    <title>petermeehan</title>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Peter Meehan</title>
+    <meta name="description" content="Peter Meehan">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <base href="/">
-    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-    <meta content="utf-8" http-equiv="encoding">
-    <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
-    <link rel="apple-touch-icon" sizes="57x57" href="/assets/icon/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/assets/icon/apple-touch-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/assets/icon/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/assets/icon/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/assets/icon/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/assets/icon/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/assets/icon/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/assets/icon/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icon/apple-touch-icon-180x180.png">
-    <link rel="icon" type="image/png" href="/assets/icon/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="/assets/icon/android-chrome-192x192.png" sizes="192x192">
-    <link rel="icon" type="image/png" href="/assets/icon/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/png" href="/assets/icon/favicon-16x16.png" sizes="16x16">
-    <link rel="manifest" href="/assets/icon/manifest.json">
-    <link rel="shortcut icon" href="/assets/icon/favicon.ico">
-    <meta name="msapplication-TileColor" content="#b91d47">
-    <meta name="msapplication-TileImage" content="/assets/icon/mstile-144x144.png">
-    <meta name="msapplication-config" content="/assets/icon/browserconfig.xml">
-    <meta name="theme-color" content="#ffffff">
-    <script type="text/javascript" src="assets/js/frameworks/angular.min.js"></script>
-    <script type="text/javascript" src="assets/js/frameworks/angular-route.min.js"></script>
-    <script type="text/javascript" src="assets/js/app.js"></script>
-    <script type="text/javascript" src="assets/js/controllers.js"></script>
+
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/favicons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/favicons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/favicons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/favicons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/favicons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/favicons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/favicons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/favicons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/assets/favicons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/assets/favicons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/assets/favicons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/assets/favicons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/assets/favicons/manifest.json">
+    <link rel="shortcut icon" href="/assets/favicons/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="Peter Meehan">
+    <meta name="application-name" content="Peter Meehan">
+    <meta name="msapplication-TileColor" content="#03a9f4">
+    <meta name="msapplication-TileImage" content="/assets/favicons/mstile-144x144.png">
+    <meta name="msapplication-config" content="/assets/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#03a9f4">
+
+    <link rel="stylesheet" href="assets/vendor/styles/normalize.css">
+    <link rel="stylesheet" href="assets/vendor/styles/foundation.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <script src="assets/vendor/js/modernizr-custom.js"></script>
   </head>
   <body>
-    <div class="navPanel">
-      <div class="profileImgWrap">
-        <a ng-href="/"><img class="profileImg" src="/assets/img/australia.png"/></a>
-      </div>
-      <div class="navRoutes">
-        <div class="navLink"><a ng-href="/about">About</a></div>
-        <div class="navLink"><a ng-href="/contact">Contact</a></div>
-        <div class="navLink"><a ng-href="/projects">Projects</a></div>
-      </div>
-    </div>
+    <!--[if lt IE 8]>
+    <p class="browserupgrade">You are using a terrible browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
     <div class="content" ng-view></div>
+
+    <script src="assets/vendor/js/angular.min.js"></script>
+    <script src="assets/vendor/js/angular-route.min.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/home-ctrl.js"></script>
+
   </body>
 </html>

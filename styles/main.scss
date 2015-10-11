@@ -1,0 +1,80 @@
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  src: url('/assets/vendor/fonts/Roboto-Light.ttf');
+}
+
+body {
+  font-family: Roboto;
+  a, a:hover, a:visited {
+    text-decoration: none;
+    color: #03a9f4;
+  }
+}
+
+.head {
+  text-align: center;
+}
+.face-container {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  max-width: 75%;
+  margin: 0 auto;
+  .face {
+    @extend %smooth;
+    @extend %expand-on-hover;
+    -webkit-border-radius: 5%;
+    -moz-border-radius: 5%;
+    border-radius: 5%;
+  }
+}
+.spiel {
+  padding-top: 1rem;
+  img {
+    @extend %contract-on-hover;
+    @extend %smooth;
+    filter: grayscale(1);
+    -webkit-filter: grayscale(1);
+    -moz-filter: grayscale(1);
+    -o-filter: grayscale(1);
+    -ms-filter: grayscale(1);
+    &:hover {
+      filter: grayscale(0);
+      -webkit-filter: grayscale(0);
+      -moz-filter: grayscale(0);
+      -o-filter: grayscale(0);
+      -ms-filter: grayscale(0);
+    }
+  }
+}
+
+.social {
+  padding-top: 1rem;
+  text-align: center;
+}
+
+%smooth {
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+%expand-on-hover {
+  &:hover {
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+}
+%contract-on-hover {
+  &:hover {
+    -webkit-transform: scale(0.9);
+    -moz-transform: scale(0.9);
+    -o-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+}
