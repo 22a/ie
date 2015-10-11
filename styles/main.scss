@@ -31,6 +31,7 @@ body {
 }
 .spiel {
   padding-top: 1rem;
+  padding-bottom: 1rem;
   img {
     @extend %contract-on-hover;
     @extend %smooth;

@@ -23,7 +23,8 @@ body {
     border-radius: 5%; }
 
 .spiel {
-  padding-top: 1rem; }
+  padding-top: 1rem;
+  padding-bottom: 1rem; }
   .spiel img {
     filter: grayscale(1);
     -webkit-filter: grayscale(1);

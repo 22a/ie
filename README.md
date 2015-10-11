@@ -1,2 +1,6 @@
-# 22a.github.io
-Repo for the most recent build of a small portfolio type website that will be hosted at meehan.co
+# [Meehan.co](http://www.meehan.co) (via 22a.github.io)
+
+A site like site that does site like things and behaves in a manner which society has come to expect from a site.
+
+## Prerequisites
+* Vim
