@@ -20,6 +20,7 @@ body{
   height: 32px;
   -webkit-filter: brightness(0) invert(1);
   filter: brightness(0) invert(1);
+  padding: 5px;
 }
 a, a:visited, a:hover{
   color: white;
