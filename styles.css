@@ -24,30 +24,6 @@ body{
   filter: blur(5px);
 }
 
-.bg{
-  background-image: url('assets/bg.jpg');
-}
-
-.fg {
-  will-change: transform;
-}
-
-.fg-low{
-  background-image: url('assets/fg-low.svg');
-}
-
-.fg-medium{
-  background-image: url('assets/fg-medium.svg');
-}
-
-.fg-high{
-  background-image: url('assets/fg-high.svg');
-}
-
-.fg-ultra{
-  background-image: url('assets/fg-ultra.png');
-}
-
 .fullscreen{
   background-size: cover;
   background-repeat: no-repeat;
@@ -133,4 +109,32 @@ h1, h2{
 a, a:visited, a:hover{
   color: black;
   text-decoration: none;
+}
+
+
+/* Deliberately leave these slow blocking image loads to
+ * the bottom of the render queue */
+.fg.q-low{
+  background-image: url('assets/fg-low.svg');
+}
+
+.fg.q-medium{
+  background-image: url('assets/fg-medium.svg');
+}
+
+.fg.q-high{
+  background-image: url('assets/fg-high.svg');
+}
+
+.fg.q-ultra{
+  background-image: url('assets/fg-ultra.png');
+}
+
+.bg.q-low, .bg.q-medium, .bg.q-high{
+  visibility: hidden;
+}
+
+.bg.q-ultra{
+  visibility: visible;
+  background-image: url('assets/bg.jpg');
 }

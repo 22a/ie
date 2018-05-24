@@ -114,8 +114,31 @@ const mobileBunwop = () => {
   }
 }
 
+const scooperDooper = () => {
+  const qualities = ['q-low', 'q-medium', 'q-high', 'q-ultra']
+  const rotate = () => {
+    const fg = document.getElementById('fg')
+    const bg = document.getElementById('bg')
+
+    const currentQuality = Array.from(fg.classList).find((className) => className.startsWith('q-'))
+
+    const currentQualityIndex = qualities.indexOf(currentQuality)
+    const nextQualityIndex = (currentQualityIndex + 1) % qualities.length
+
+    const nextQuality = qualities[nextQualityIndex]
+    fg.classList.remove(currentQuality)
+    fg.classList.add(nextQuality)
+    bg.classList.remove(currentQuality)
+    bg.classList.add(nextQuality)
+  }
+  document.body.addEventListener('click', rotate)
+}
+
 if (isMobile) {
   mobileBunwop()
 } else {
+  document.getElementById('fg').style.willChange = 'transform'
   flippemRippemDip()
 }
+
+scooperDooper()
