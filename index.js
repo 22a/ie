@@ -2,6 +2,7 @@
 import './styles.css'
 
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+const isSafari = /version\/([\d\w\.\-]+)/i.test(navigator.userAgent)
 
 const bigBagOfStateWithTheBois = {
   width: null,
@@ -67,20 +68,9 @@ const flippemRippemDip = () => {
 }
 
 const mobileBunwop = () => {
-  // const container = document.getElementById('hej')
   const fg = document.getElementById('fg')
 
   const handleOrientationEvent = (frontToBack, leftToRight, rotateDegrees) => {
-    // const r = Math.floor(Math.abs(((frontToBack + 180) / 360) * 255))
-    // const g = Math.floor(Math.abs(((leftToRight + 90) / 180) * 255))
-    // const b = Math.floor(Math.abs((rotateDegrees / 360) * 255))
-
-    // const highHueBits = Math.floor(Math.abs(((frontToBack + 180) / 360) * 127))
-    // const lowHueBits = Math.floor(Math.abs(((leftToRight + 90) / 180) * 127))
-
-    // const foo = `rgb(${r}, ${g}, ${b})`
-    // const colour = `hsl(${highHueBits + lowHueBits}, 100%, 50%)`
-    // container.style.color = colour
     fg.style.filter = `hue-rotate(${frontToBack}deg)`
   }
 
@@ -136,6 +126,9 @@ const scooperDooper = () => {
 
 if (isMobile) {
   mobileBunwop()
+} else if (isSafari) {
+  console.log('https://bugs.webkit.org/show_bug.cgi?id=61824')
+  console.log('%c sorry ¯\\_(ツ)_/¯', 'background-color: red; color: white; padding: 8px; padding-right: 20px; font-family: Helvetica, Arial, sans-serif; font-weight: bold; font-style: italic; font-size: 18px;');
 } else {
   document.getElementById('fg').style.willChange = 'transform'
   flippemRippemDip()
