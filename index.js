@@ -124,14 +124,36 @@ const scooperDooper = () => {
   document.body.addEventListener('click', rotate)
 }
 
+const doTheIntercom = () => {
+  if (!window.theIntercomHasBeenDone) {
+    window.theIntercomHasBeenDone = true
+    window.intercomSettings = {
+      app_id: "g3v846nl"
+    };
+    const intercomScriptTag = document.createElement('script')
+    intercomScriptTag.type = 'text/javascript'
+    intercomScriptTag.async = true
+    intercomScriptTag.src = `https://widget.intercom.io/widget/${window.intercomSettings.app_id}`
+    const firstScriptElement = document.getElementsByTagName('script')[0];
+    firstScriptElement.parentNode.insertBefore(intercomScriptTag, firstScriptElement)
+  }
+}
+
+const enableIntercomOnClick = () => {
+  const target = document.getElementById('hej')
+  target.addEventListener('click', doTheIntercom)
+}
+
 if (isMobile) {
   mobileBunwop()
 } else if (isSafari) {
   console.log('https://bugs.webkit.org/show_bug.cgi?id=61824')
-  console.log('%c sorry ¯\\_(ツ)_/¯', 'background-color: red; color: white; padding: 8px; padding-right: 20px; font-family: Helvetica, Arial, sans-serif; font-weight: bold; font-style: italic; font-size: 18px;');
+  console.log('%c sorry ¯\\_(ツ)_/¯', 'background-color: red; color: white; padding: 8px; padding-right: 20px; font-family: Helvetica, Arial, sans-serif; font-weight: bold; font-style: italic; font-size: 18px;')
 } else {
   document.getElementById('fg').style.willChange = 'transform'
   flippemRippemDip()
 }
 
 scooperDooper()
+
+enableIntercomOnClick()
