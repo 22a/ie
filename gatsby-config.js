@@ -31,7 +31,12 @@ module.exports = {
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
     //
-    `gatsby-plugin-styled-components`,
+    {
+      resolve: `gatsby-plugin-styled-components`,
+      options: {
+        displayName: false
+      }
+    },
     {
       resolve: `gatsby-plugin-react-svg`,
       options: {

@@ -10,6 +10,9 @@ import PropTypes from "prop-types";
 import Helmet from "react-helmet";
 import { useStaticQuery, graphql } from "gatsby";
 
+import dmSansMediumFontBinaryURL from "../fonts/dm-sans-medium.woff2";
+import dmSansBoldFontBinaryURL from "../fonts/dm-sans-bold.woff2";
+
 function SEO({ description, lang, meta, title }) {
   const { site } = useStaticQuery(
     graphql`
@@ -69,8 +72,18 @@ function SEO({ description, lang, meta, title }) {
       ].concat(meta)}
     >
       <link
-        href="https://fonts.googleapis.com/css?family=DM+Sans:500,700&display=swap"
-        rel="stylesheet"
+        rel="preload"
+        href={dmSansMediumFontBinaryURL}
+        as="font"
+        type="font/woff2"
+        crossorigin="anonymous"
+      />
+      <link
+        rel="preload"
+        href={dmSansBoldFontBinaryURL}
+        as="font"
+        type="font/woff2"
+        crossorigin="anonymous"
       />
     </Helmet>
   );

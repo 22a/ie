@@ -9,9 +9,25 @@ import SEO from "../components/seo";
 import Face from "../components/face";
 import Nav from "../components/nav";
 import Blurb from "../components/blurb";
+import dmSansMediumFontBinaryURL from "../fonts/dm-sans-medium.woff2";
+import dmSansBoldFontBinaryURL from "../fonts/dm-sans-bold.woff2";
 
 const GlobalStyle = createGlobalStyle`
   ${normalize}
+
+  @font-face {
+    font-family: 'DM Sans';
+    font-display: block;
+    font-weight: 500;
+    src: url(${dmSansMediumFontBinaryURL}) format('woff2');
+  }
+
+  @font-face {
+    font-family: 'DM Sans';
+    font-weight: 700;
+    font-display: block;
+    src: url(${dmSansBoldFontBinaryURL}) format('woff2');
+  }
 
   html, body {
     overflow: hidden;

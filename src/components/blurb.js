@@ -5,10 +5,13 @@ import RHYTHM from "../lib/rhythm";
 import PALETTE from "../lib/palette";
 
 const Blurb = styled.p`
-  margin: ${RHYTHM.x6} 0;
+  margin: 0;
+  margin-top: ${RHYTHM.x6};
   padding: ${RHYTHM.x1};
   background: ${PALETTE.pink};
-  cursor: context-menu;
+  cursor: default;
+  user-select: none;
+  text-align: justify;
 `;
 
 const en_content =
