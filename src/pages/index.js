@@ -34,7 +34,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
     font-weight: 500;
     background: ${PALETTE.red};
   }
