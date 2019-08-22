@@ -48,7 +48,7 @@ export default () => (
     <List>
       {NAV_LINKS.map(link => (
         <Entry key={link.url}>
-          <Link href={link.url} target="_blank">
+          <Link href={link.url} target="_blank" rel="noopener">
             {link.text}
           </Link>
         </Entry>

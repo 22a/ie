@@ -26,6 +26,7 @@ const Container = styled.main`
   padding: ${RHYTHM.x6};
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 
   @media (min-width: ${BREAKPOINTS.small}) {
     justify-content: center;
