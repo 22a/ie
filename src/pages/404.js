@@ -19,7 +19,10 @@ const Paragraph = styled.p`
 
 const NotFoundPage = () => (
   <Layout>
-    <SEO title="404: Not found" />
+    <SEO
+      title="404: Not found (oopsie)"
+      description="Someone linked to a page on Peter's personal cybersphere zone that doesn't exist ¯\_(ツ)_/¯"
+    />
     <GlobalStyles />
     <Heading>404: Not found</Heading>
     <Paragraph>
