@@ -29,12 +29,13 @@ const Entry = styled.li`
 const Link = styled.a`
   display: inline-block;
   box-sizing: border-box;
-  width: 100%;
+  width: calc(100% - ${RHYTHM.x2});
   padding: ${RHYTHM.x1};
   color: ${PALETTE.black};
   transition: transform 50ms linear;
 
-  ${Entry}:hover & {
+  ${Entry}:hover &,
+  :focus {
     font-weight: 700;
     text-decoration: none;
     text-transform: uppercase;
