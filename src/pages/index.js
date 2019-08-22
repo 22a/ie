@@ -25,17 +25,20 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const Container = styled.main`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   box-sizing: border-box;
-  height: 100vh;
-  padding: ${RHYTHM.x6};
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  padding: ${RHYTHM.x6};
 
   @media (min-width: ${BREAKPOINTS.small}) {
     justify-content: center;
     align-items: flex-end;
-    flex-wrap: wrap;
   }
 `;
 

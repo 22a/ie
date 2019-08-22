@@ -8,7 +8,7 @@ const Blurb = styled.p`
   margin: ${RHYTHM.x6} 0;
   padding: ${RHYTHM.x1};
   background: ${PALETTE.pink};
-  cursor: pointer;
+  cursor: context-menu;
 `;
 
 const en_content =
