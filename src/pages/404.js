@@ -17,6 +17,18 @@ const Paragraph = styled.p`
   padding: ${RHYTHM.x1};
 `;
 
+const Link = styled.a`
+  color: ${PALETTE.white};
+  background-color: ${PALETTE.black};
+  padding: ${RHYTHM.x2};
+
+  :hover {
+    color: ${PALETTE.pink};
+    box-shadow: 0px 0px 0px 1px ${PALETTE.pink};
+    text-decoration: none;
+  }
+`;
+
 const NotFoundPage = () => (
   <Layout>
     <SEO
@@ -25,6 +37,9 @@ const NotFoundPage = () => (
     />
     <GlobalStyles />
     <Heading>404: Not found</Heading>
+    <Link href="/">
+      (I'd recommend retreating to a safe part of the cybersphere.)
+    </Link>
     <Paragraph>
       I'm not sure what it is you're looking for, but if you think this should
       exist go shout at me on twitter.
