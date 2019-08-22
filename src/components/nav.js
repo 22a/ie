@@ -32,7 +32,6 @@ const Link = styled.a`
   width: 100%;
   padding: ${RHYTHM.x1};
   color: ${PALETTE.black};
-
   transition: transform 50ms linear;
 
   ${Entry}:hover & {

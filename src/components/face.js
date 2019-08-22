@@ -16,7 +16,7 @@ const Face = styled(FaceSvg)`
     transition: transform 50ms linear;
 
     :hover {
-      transform: perspective(10cm) rotateX(-5deg) rotateY(10deg);
+      transform: perspective(10cm) rotateX(-5deg) rotateY(10deg) translateZ(1cm);
     }
   }
 
@@ -30,21 +30,51 @@ export default class Foo extends React.Component {
   constructor(props) {
     super(props);
     this.updateRotationWheel = this.updateRotationWheel.bind(this);
-    this.state = { rotationX: 0, rotationY: 0 };
+    this.updateRotationOrientation = this.updateRotationOrientation.bind(this);
+    this.state = { xRotation: 0, yRotation: 0, zRotation: 0 };
   }
   componentDidMount() {
     window.addEventListener("wheel", throttle(this.updateRotationWheel, 10), {
       trailing: true,
       leading: true
     });
+    window.addEventListener(
+      "deviceorientation",
+      throttle(this.updateRotationOrientation, 10),
+      {
+        trailing: true,
+        leading: true
+      }
+    );
   }
   componentWillUnmount() {
     window.removeEventListener("wheel", this.updateRotationWheel);
+    window.removeEventListener(
+      "deviceorientation",
+      this.updateRotationOrientation
+    );
   }
   updateRotationWheel(e) {
     this.setState({
-      rotationX: this.state.rotationX + e.deltaY * rotationScalar,
-      rotationY: this.state.rotationY + e.deltaX * rotationScalar
+      xRotation: Math.round(this.state.xRotation + e.deltaY * rotationScalar),
+      yRotation: Math.round(this.state.yRotation + e.deltaX * rotationScalar)
+    });
+  }
+  updateRotationOrientation(e) {
+    // alpha: rotation around z-axis
+    // -180 -> 180
+    const normalisedAlpha = Math.round(e.alpha);
+    // beta: front back motion
+    // 0 -> 360
+    const normalisedBeta = Math.round(e.beta * -1);
+    // gamma: left to right
+    // -90 -> 90
+    const normalisedGamma = Math.round(e.gamma * -1);
+
+    this.setState({
+      zRotation: normalisedAlpha,
+      xRotation: normalisedBeta,
+      yRotation: normalisedGamma
     });
   }
 
@@ -52,9 +82,8 @@ export default class Foo extends React.Component {
     return (
       <Face
         role="img"
-        id={`${this.state.rotation}`}
         style={{
-          transform: `rotateY(${this.state.rotationY}deg) rotateX(${this.state.rotationX}deg)`
+          transform: `rotateX(${this.state.xRotation}deg) rotateY(${this.state.yRotation}deg) rotateZ(${this.state.zRotation}deg)`
         }}
       />
     );

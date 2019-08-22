@@ -13,6 +13,10 @@ import Blurb from "../components/blurb";
 const GlobalStyle = createGlobalStyle`
   ${normalize}
 
+  html, body {
+    overflow: hidden;
+  }
+
   body {
     font-family: 'DM Sans', sans-serif;
     font-weight: 500;
