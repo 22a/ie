@@ -1,45 +1,33 @@
-/**
- * SEO component that queries for data with
- *  Gatsby's useStaticQuery React hook
- *
- * See: https://www.gatsbyjs.org/docs/use-static-query/
- */
-
 import React from "react";
-import PropTypes from "prop-types";
 import Helmet from "react-helmet";
-import { useStaticQuery, graphql } from "gatsby";
 
 import dmSansMediumFontBinaryURL from "../fonts/dm-sans-medium.woff2";
 import dmSansBoldFontBinaryURL from "../fonts/dm-sans-bold.woff2";
+import ogImagePath from "../images/og-image.png";
 
-function SEO({ description, lang, meta, title }) {
-  const { site } = useStaticQuery(
-    graphql`
-      query {
-        site {
-          siteMetadata {
-            title
-            description
-            author
-          }
-        }
-      }
-    `
-  );
+const SITE_URL = `https://22a.ie`;
 
-  const metaDescription = description || site.siteMetadata.description;
+const META = {
+  title: `22a · Peter Meehan`,
+  description: `Peter's personal cybersphere zone.`,
+  url: `${SITE_URL}/`,
+  image: `${SITE_URL}${ogImagePath}`,
+  twitterUsername: `@22a`
+};
 
+export default ({ title = META.title, description = META.description }) => {
   return (
     <Helmet
-      htmlAttributes={{
-        lang
-      }}
+      htmlAttributes={{ lang: `en` }}
       title={title}
       meta={[
         {
           name: `description`,
-          content: metaDescription
+          content: description
+        },
+        {
+          name: `image`,
+          content: META.image
         },
         {
           property: `og:title`,
@@ -47,19 +35,31 @@ function SEO({ description, lang, meta, title }) {
         },
         {
           property: `og:description`,
-          content: metaDescription
+          content: description
         },
         {
           property: `og:type`,
           content: `website`
         },
         {
+          property: `og:image`,
+          content: META.image
+        },
+        {
+          property: `og:image:width`,
+          content: `1200`
+        },
+        {
+          property: `og:image:height`,
+          content: `630`
+        },
+        {
           name: `twitter:card`,
-          content: `summary`
+          content: `summary_large_image`
         },
         {
           name: `twitter:creator`,
-          content: site.siteMetadata.author
+          content: META.twitterUsername
         },
         {
           name: `twitter:title`,
@@ -67,9 +67,13 @@ function SEO({ description, lang, meta, title }) {
         },
         {
           name: `twitter:description`,
-          content: metaDescription
+          content: description
+        },
+        {
+          name: `twitter:image`,
+          content: META.image
         }
-      ].concat(meta)}
+      ]}
     >
       <link
         rel="preload"
@@ -87,20 +91,4 @@ function SEO({ description, lang, meta, title }) {
       />
     </Helmet>
   );
-}
-
-SEO.defaultProps = {
-  lang: `en`,
-  meta: [],
-  description: ``,
-  title: `22a.ie`
 };
-
-SEO.propTypes = {
-  description: PropTypes.string,
-  lang: PropTypes.string,
-  meta: PropTypes.arrayOf(PropTypes.object),
-  title: PropTypes.string.isRequired
-};
-
-export default SEO;

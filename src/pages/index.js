@@ -60,8 +60,8 @@ const Container = styled.main`
 
 const IndexPage = () => (
   <Container>
-    <GlobalStyle />
     <SEO />
+    <GlobalStyle />
     <Face />
     <Nav />
     <Blurb />

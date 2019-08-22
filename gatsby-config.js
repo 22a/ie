@@ -1,9 +1,4 @@
 module.exports = {
-  siteMetadata: {
-    title: `22a.ie`,
-    description: `Peter's personal cybersphere zone.`,
-    author: `@22a`
-  },
   plugins: [
     `gatsby-plugin-react-helmet`,
     {
@@ -18,13 +13,13 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `gatsby-starter-default`,
-        short_name: `starter`,
+        name: `22a`,
+        short_name: `22a`,
         start_url: `/`,
-        background_color: `#663399`,
-        theme_color: `#663399`,
+        background_color: `#EB5757`,
+        theme_color: `#EB5757`,
         display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png` // This path is relative to the root of the site.
+        icon: `src/images/many-a-logo.png`
       }
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
