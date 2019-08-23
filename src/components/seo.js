@@ -74,21 +74,6 @@ export default ({ title = META.title, description = META.description }) => {
           content: META.image
         }
       ]}
-    >
-      <link
-        rel="preload"
-        href={dmSansMediumFontBinaryURL}
-        as="font"
-        type="font/woff2"
-        crossorigin="anonymous"
-      />
-      <link
-        rel="preload"
-        href={dmSansBoldFontBinaryURL}
-        as="font"
-        type="font/woff2"
-        crossorigin="anonymous"
-      />
-    </Helmet>
+    />
   );
 };
