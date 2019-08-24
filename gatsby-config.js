@@ -19,7 +19,10 @@ module.exports = {
         background_color: `#EB5757`,
         theme_color: `#EB5757`,
         display: `minimal-ui`,
-        icon: `src/images/many-a-logo.png`
+        icon: `src/images/many-a-logo.png`,
+        icon_options: {
+          purpose: `maskable`
+        }
       }
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
