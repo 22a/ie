@@ -1,5 +1,0 @@
-# Redirect domain aliases to primary domain
-https://meehan.co/* https://22a.ie/:splat 301!
-
-# Redirect default Netlify subdomain to primary domain
-https://22a.netlify.com/* https://22a.ie/:splat 301!
