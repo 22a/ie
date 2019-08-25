@@ -5,6 +5,13 @@
   status = 301
   force = true
 
+# Redirect `hire.meehan.co` domain alias to primary domain
+[[redirects]]
+  from = "https://hire.meehan.co/*"
+  to = "https://22a.ie/:splat"
+  status = 301
+  force = true
+
 # Redirect default Netlify subdomain to primary domain
 [[redirects]]
   from = "https://22a.netlify.com/*"
