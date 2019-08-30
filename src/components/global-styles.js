@@ -10,7 +10,7 @@ export default createGlobalStyle`
 
   @font-face {
     font-family: 'DM Sans';
-    font-display: swap;
+    font-display: fallback;
     font-weight: 500;
     src: url(${dmSansMediumFontBinaryURL}) format('woff2');
   }
@@ -18,7 +18,7 @@ export default createGlobalStyle`
   @font-face {
     font-family: 'DM Sans';
     font-weight: 700;
-    font-display: swap;
+    font-display: fallback;
     src: url(${dmSansBoldFontBinaryURL}) format('woff2');
   }
 
