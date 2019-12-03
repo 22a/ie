@@ -1,8 +1,6 @@
 import React from "react";
 import Helmet from "react-helmet";
 
-import dmSansMediumFontBinaryURL from "../fonts/dm-sans-medium.woff2";
-import dmSansBoldFontBinaryURL from "../fonts/dm-sans-bold.woff2";
 import ogImagePath from "../images/og-image.png";
 
 const SITE_URL = `https://22a.ie`;

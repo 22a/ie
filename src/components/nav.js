@@ -37,8 +37,7 @@ const Link = styled.a`
 
   ${Entry}:hover &,
   :focus {
-    font-weight: 700;
-    text-decoration: none;
+    text-decoration: overline;
     text-transform: uppercase;
     transform: translateX(-${RHYTHM.x1});
   }
