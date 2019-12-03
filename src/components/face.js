@@ -11,9 +11,10 @@ const rotationScalar = 0.1;
 const Face = styled(FaceSvg)`
   width: calc(100vw - 2 * ${RHYTHM.x6});
   height: calc(100vw - 2 * ${RHYTHM.x6});
+  transition: transform 100ms linear;
 
   & > path {
-    transition: transform 50ms linear;
+    transition: transform 100ms linear;
 
     :hover {
       transform: perspective(10cm) rotateX(-5deg) rotateY(10deg) translateZ(1cm);
@@ -31,6 +32,8 @@ export default class Foo extends React.Component {
     super(props);
     this.updateRotationWheel = this.updateRotationWheel.bind(this);
     this.updateRotationOrientation = this.updateRotationOrientation.bind(this);
+    this.onMouseMove = this.onMouseMove.bind(this);
+    this.onTouchMove = this.onTouchMove.bind(this);
     this.state = { xRotation: 0, yRotation: 0, zRotation: 0 };
   }
   componentDidMount() {
@@ -46,18 +49,33 @@ export default class Foo extends React.Component {
         leading: true
       }
     );
-  }
-  componentWillUnmount() {
-    window.removeEventListener("wheel", this.updateRotationWheel);
-    window.removeEventListener(
-      "deviceorientation",
-      this.updateRotationOrientation
-    );
+    document
+      .querySelector("main")
+      .addEventListener("mousemove", throttle(this.onMouseMove, 10), {
+        trailing: true,
+        leading: true
+      });
+    window.addEventListener("touchmove", throttle(this.onTouchMove, 10), {
+      trailing: true,
+      leading: true
+    });
   }
   updateRotationWheel(e) {
     this.setState({
       xRotation: Math.round(this.state.xRotation + e.deltaY * rotationScalar),
       yRotation: Math.round(this.state.yRotation + e.deltaX * rotationScalar)
+    });
+  }
+  onMouseMove(e) {
+    this.setState({
+      xRotation: Math.round(-e.offsetY),
+      yRotation: Math.round(-e.offsetX)
+    });
+  }
+  onTouchMove({ touches: [touch] }) {
+    this.setState({
+      xRotation: Math.round(-touch.pageY),
+      yRotation: Math.round(-touch.pageX)
     });
   }
   updateRotationOrientation(e) {
