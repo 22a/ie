@@ -6,27 +6,25 @@
   "author": "Peter Meehan <meehanp2@tcd.ie>",
   "dependencies": {
     "babel-plugin-styled-components": "^1.10.6",
-    "gatsby": "^2.13.72",
-    "gatsby-image": "^2.2.10",
-    "gatsby-plugin-manifest": "^2.2.6",
-    "gatsby-plugin-offline": "^2.2.7",
-    "gatsby-plugin-react-helmet": "^3.1.4",
+    "gatsby": "^2.18.7",
+    "gatsby-image": "^2.2.34",
+    "gatsby-plugin-manifest": "^2.2.31",
+    "gatsby-plugin-react-helmet": "^3.1.16",
     "gatsby-plugin-react-svg": "^2.1.2",
-    "gatsby-plugin-sharp": "^2.2.13",
-    "gatsby-plugin-styled-components": "^3.1.2",
-    "gatsby-source-filesystem": "^2.1.10",
-    "gatsby-transformer-sharp": "^2.2.7",
+    "gatsby-plugin-sharp": "^2.3.5",
+    "gatsby-plugin-styled-components": "^3.1.14",
+    "gatsby-source-filesystem": "^2.1.40",
+    "gatsby-transformer-sharp": "^2.3.7",
     "lodash.throttle": "^4.1.1",
-    "prop-types": "^15.7.2",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
     "react-helmet": "^5.2.1",
-    "styled-components": "^5.0.0-beta.8",
+    "styled-components": "^5.0.0-rc.2",
     "styled-normalize": "^8.0.6"
   },
   "devDependencies": {
-    "@types/styled-components": "^4.1.18",
-    "prettier": "^1.18.2"
+    "@types/styled-components": "^4.4.0",
+    "prettier": "^1.19.1"
   },
   "keywords": [
     "gatsby"
