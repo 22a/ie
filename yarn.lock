@@ -8,6 +8,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "22a.ie@workspace:."
   dependencies:
+    "@types/react": ^16.9.19
     "@types/styled-components": ^4.4.2
     babel-plugin-styled-components: ^1.10.7
     gatsby: ^2.19.11
@@ -19,13 +20,16 @@ __metadata:
     gatsby-plugin-styled-components: ^3.1.19
     gatsby-source-filesystem: ^2.1.48
     gatsby-transformer-sharp: ^2.3.14
+    lodash: ^4.17.15
     lodash.throttle: ^4.1.1
     prettier: ^1.19.1
     react: ^16.12.0
     react-dom: ^16.12.0
     react-helmet: ^5.2.1
+    react-is: ^16.12.0
     styled-components: ^5.0.0
     styled-normalize: ^8.0.7
+    svg-react-loader: ^0.4.6
   languageName: unknown
   linkType: soft
 
@@ -2143,6 +2147,16 @@ __metadata:
     "@types/prop-types": "*"
     csstype: ^2.2.0
   checksum: c2bae9a12ee5ad8b3ed2f316db17c0accfc49957e5910974a7a4d9a20b0935066c208c03e0427e7b7c1aebe68ac156185ceb8cf3edecc0fbdae0d593a6974eec
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^16.9.19":
+  version: 16.9.19
+  resolution: "@types/react@npm:16.9.19"
+  dependencies:
+    "@types/prop-types": "*"
+    csstype: ^2.2.0
+  checksum: 00300319c33065351c5864ef8e7ae2854e3820d2d9d4a16789deeecb375c49cc5158de1d90ca18380070a655925715d579c0b9a5d5cb14585fd9861d413137a7
   languageName: node
   linkType: hard
 
@@ -13414,6 +13428,13 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
+"react-is@npm:^16.12.0":
+  version: 16.12.0
+  resolution: "react-is@npm:16.12.0"
+  checksum: 1cc13815109812213f5f1e15718551c2c4b3c164b447bd35ceba920dc268c5f0710617f12076d9b8100edd4a7e935f76bf19abe745068e387ff2670b3a3fdb0d
+  languageName: node
+  linkType: hard
+
 "react-is@npm:^16.7.0, react-is@npm:^16.8.1":
   version: 16.8.3
   resolution: "react-is@npm:16.8.3"
@@ -15348,7 +15369,7 @@ resolve@^1.14.2:
   languageName: node
   linkType: hard
 
-"svg-react-loader@npm:^0.4.4":
+"svg-react-loader@npm:^0.4.4, svg-react-loader@npm:^0.4.6":
   version: 0.4.6
   resolution: "svg-react-loader@npm:0.4.6"
   dependencies:
