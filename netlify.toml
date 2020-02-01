@@ -1,3 +1,8 @@
+# Settings in the [build] context are global and are applied to all contexts
+# unless otherwise overridden by more specific contexts.
+[build]
+  environment = { YARN_VERSION = "2.0.0-rc.28" }
+
 # Redirect `meehan.co` domain alias to primary domain
 [[redirects]]
   from = "https://meehan.co/*"
