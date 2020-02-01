@@ -68,8 +68,8 @@ export default class Foo extends React.Component {
   }
   onMouseMove(e) {
     this.setState({
-      xRotation: Math.round(-e.offsetY),
-      yRotation: Math.round(-e.offsetX)
+      xRotation: Math.round(e.clientY / 2),
+      yRotation: Math.round(e.clientX / 2)
     });
   }
   onTouchMove({ touches: [touch] }) {
