@@ -14,7 +14,7 @@ __metadata:
     gatsby-image: ^2.2.40
     gatsby-plugin-manifest: ^2.2.41
     gatsby-plugin-react-helmet: ^3.1.22
-    gatsby-plugin-react-svg: ^2.1.2
+    gatsby-plugin-react-svg: ^3.0.0
     gatsby-plugin-sharp: ^2.4.5
     gatsby-plugin-styled-components: ^3.1.19
     gatsby-source-filesystem: ^2.1.48
@@ -7507,12 +7507,12 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"gatsby-plugin-react-svg@npm:^2.1.2":
-  version: 2.1.2
-  resolution: "gatsby-plugin-react-svg@npm:2.1.2"
+"gatsby-plugin-react-svg@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "gatsby-plugin-react-svg@npm:3.0.0"
   dependencies:
     svg-react-loader: ^0.4.4
-  checksum: 75c4229b564fbe583d2a1fb05f93e037a96d7672133b973d1686779bf63d7018e7faeede3a6071a51b6580b3ce85a0786fc8cc354e5eced59a86772b9bc42a06
+  checksum: 72e2b6d62814df39304b05b793c46e7aaa41c61186024532407657f3ba06bea666de73849285dad9fd7c0c1aa1ff2ff8b21b3bc5ec8c44cfd71853b8ffe58195
   languageName: node
   linkType: hard
 
