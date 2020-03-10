@@ -20,6 +20,7 @@ __metadata:
     gatsby-plugin-styled-components: ^3.1.19
     gatsby-source-filesystem: ^2.1.48
     gatsby-transformer-sharp: ^2.3.14
+    jquery: 3.3.1
     lodash: ^4.17.15
     lodash.throttle: ^4.1.1
     prettier: ^1.19.1
@@ -9836,6 +9837,13 @@ fsevents@~2.1.1:
   version: 0.3.6
   resolution: "jpeg-js@npm:0.3.6"
   checksum: 977c882fb39baf7225e66d6bc50a0e834dede6e671765b7bc158e54e2a0cdce53ae75f77623dc74d2fe8d2bffff87483ae2f026175a8b2926714c7728ec855f9
+  languageName: node
+  linkType: hard
+
+"jquery@npm:3.3.1":
+  version: 3.3.1
+  resolution: "jquery@npm:3.3.1"
+  checksum: 4bedb88bb44a5c73703b8b97b378319357389ed8e722e68d93c0a920e9d5b798c15064beb0daf635f604f2e244084afa0e395ab5b2a4bdee73e614fe10a70fa1
   languageName: node
   linkType: hard
 
