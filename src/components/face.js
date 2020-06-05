@@ -35,8 +35,6 @@ export default class Foo extends React.Component {
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onTouchMove = this.onTouchMove.bind(this);
     this.state = { xRotation: 0, yRotation: 0, zRotation: 0 };
-    this.viewportHeightOnInitialRender = window.innerHeight;
-    this.viewportWidthOnInitialRender = window.innerWidth;
   }
   componentDidMount() {
     window.addEventListener("wheel", throttle(this.updateRotationWheel, 10));
@@ -47,7 +45,7 @@ export default class Foo extends React.Component {
     );
     document
       .querySelector("main")
-      .addEventListener("mousemove", throttle(this.onMouseMove, 10));
+      .addEventListener("mousemove", throttle(this.onMouseMove, 100));
   }
   updateRotationWheel(e) {
     this.setState({
@@ -57,12 +55,8 @@ export default class Foo extends React.Component {
   }
   onMouseMove(e) {
     this.setState({
-      xRotation: Math.round(
-        (e.clientY / this.viewportWidthOnInitialRender) * 10
-      ),
-      yRotation: Math.round(
-        (e.clientX / this.viewportHeightOnInitialRender) * 10
-      ),
+      xRotation: Math.round((e.clientY / window.innerWidth) * 10),
+      yRotation: Math.round((e.clientX / window.innerHeight) * 10),
     });
   }
   onTouchMove({ touches: [touch] }) {
