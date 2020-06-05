@@ -35,30 +35,14 @@ export default class Foo extends React.Component {
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onTouchMove = this.onTouchMove.bind(this);
     this.state = { xRotation: 0, yRotation: 0, zRotation: 0 };
+    this.viewportHeightOnInitialRender = window.innerHeight;
+    this.viewportWidthOnInitialRender = window.innerWidth;
   }
   componentDidMount() {
-    window.addEventListener("wheel", throttle(this.updateRotationWheel, 10), {
-      trailing: true,
-      leading: true
-    });
-    window.addEventListener(
-      "deviceorientation",
-      throttle(this.updateRotationOrientation, 10),
-      {
-        trailing: true,
-        leading: true
-      }
-    );
-    document
-      .querySelector("main")
-      .addEventListener("mousemove", throttle(this.onMouseMove, 10), {
-        trailing: true,
-        leading: true
-      });
-    window.addEventListener("touchmove", throttle(this.onTouchMove, 10), {
-      trailing: true,
-      leading: true
-    });
+    window.addEventListener("wheel", throttle(this.updateRotationWheel, 10));
+    window.addEventListener("touchmove", throttle(this.onTouchMove, 10));
+    window.addEventListener("deviceorientation", throttle(this.updateRotationOrientation, 10));
+    document.querySelector("main").addEventListener("mousemove", throttle(this.onMouseMove, 10));
   }
   updateRotationWheel(e) {
     this.setState({
@@ -68,8 +52,8 @@ export default class Foo extends React.Component {
   }
   onMouseMove(e) {
     this.setState({
-      xRotation: Math.round(e.clientY / 2),
-      yRotation: Math.round(e.clientX / 2)
+      xRotation: Math.round(e.clientY / this.viewportWidthOnInitialRender * 10),
+      yRotation: Math.round(e.clientX / this.viewportHeightOnInitialRender * 10),
     });
   }
   onTouchMove({ touches: [touch] }) {
