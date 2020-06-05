@@ -46,7 +46,7 @@ const Link = styled.a`
 export default () => (
   <Nav>
     <List>
-      {NAV_LINKS.map(link => (
+      {NAV_LINKS.map((link) => (
         <Entry key={link.url}>
           <Link href={link.url} target="_blank" rel="noopener">
             {link.text}

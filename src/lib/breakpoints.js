@@ -1,3 +1,3 @@
 export default {
-  small: `420px`
+  small: `420px`,
 };

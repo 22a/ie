@@ -41,25 +41,34 @@ export default class Foo extends React.Component {
   componentDidMount() {
     window.addEventListener("wheel", throttle(this.updateRotationWheel, 10));
     window.addEventListener("touchmove", throttle(this.onTouchMove, 10));
-    window.addEventListener("deviceorientation", throttle(this.updateRotationOrientation, 10));
-    document.querySelector("main").addEventListener("mousemove", throttle(this.onMouseMove, 10));
+    window.addEventListener(
+      "deviceorientation",
+      throttle(this.updateRotationOrientation, 10)
+    );
+    document
+      .querySelector("main")
+      .addEventListener("mousemove", throttle(this.onMouseMove, 10));
   }
   updateRotationWheel(e) {
     this.setState({
       xRotation: Math.round(this.state.xRotation + e.deltaY * rotationScalar),
-      yRotation: Math.round(this.state.yRotation + e.deltaX * rotationScalar)
+      yRotation: Math.round(this.state.yRotation + e.deltaX * rotationScalar),
     });
   }
   onMouseMove(e) {
     this.setState({
-      xRotation: Math.round(e.clientY / this.viewportWidthOnInitialRender * 10),
-      yRotation: Math.round(e.clientX / this.viewportHeightOnInitialRender * 10),
+      xRotation: Math.round(
+        (e.clientY / this.viewportWidthOnInitialRender) * 10
+      ),
+      yRotation: Math.round(
+        (e.clientX / this.viewportHeightOnInitialRender) * 10
+      ),
     });
   }
   onTouchMove({ touches: [touch] }) {
     this.setState({
       xRotation: Math.round(-touch.pageY),
-      yRotation: Math.round(-touch.pageX)
+      yRotation: Math.round(-touch.pageX),
     });
   }
   updateRotationOrientation(e) {
@@ -76,7 +85,7 @@ export default class Foo extends React.Component {
     this.setState({
       zRotation: normalisedAlpha,
       xRotation: normalisedBeta,
-      yRotation: normalisedGamma
+      yRotation: normalisedGamma,
     });
   }
 
@@ -85,7 +94,7 @@ export default class Foo extends React.Component {
       <Face
         role="img"
         style={{
-          transform: `rotateX(${this.state.xRotation}deg) rotateY(${this.state.yRotation}deg) rotateZ(${this.state.zRotation}deg)`
+          transform: `rotateX(${this.state.xRotation}deg) rotateY(${this.state.yRotation}deg) rotateZ(${this.state.zRotation}deg)`,
         }}
       />
     );
