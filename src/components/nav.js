@@ -29,24 +29,23 @@ const Entry = styled.li`
 const Link = styled.a`
   display: inline-block;
   box-sizing: border-box;
-  width: calc(100% - ${RHYTHM.x2});
+  width: 100%;
   padding: ${RHYTHM.x1};
   color: ${PALETTE.black};
   user-select: none;
   transition: transform 50ms linear;
+  text-decoration: none;
 
   ${Entry}:hover &,
   :focus {
-    text-decoration: overline;
-    text-transform: uppercase;
-    transform: translateX(-${RHYTHM.x1});
+    box-shadow: 0 0 0 2px ${PALETTE.black};
   }
 `;
 
 export default () => (
   <Nav>
     <List>
-      {NAV_LINKS.map((link) => (
+      {NAV_LINKS.map(link => (
         <Entry key={link.url}>
           <Link href={link.url} target="_blank" rel="noopener">
             {link.text}

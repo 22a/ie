@@ -17,7 +17,7 @@ const Blurb = styled.p`
 const en_content =
   "Hi, I'm Peter. I speak to computers and do some other things too.";
 const sv_content =
-  "Hej, jag heter Peter. Jag talar till datorer och gör andra saker också.";
+  "Hej, jag heter Peter. Jag talar med datorer och gör andra saker också.";
 
 export default () => {
   const [lang, setLang] = useState("en");
