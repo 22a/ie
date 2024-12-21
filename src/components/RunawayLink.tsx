@@ -23,6 +23,7 @@ export default function RunawayLink({
   const [hasInteracted, setHasInteracted] = useState(false);
   const [velocity, setVelocity] = useState({ x: 0, y: 0 });
   const [viewportSize, setViewportSize] = useState({ width: 0, height: 0 });
+  const [hasShownToast, setHasShownToast] = useState(false);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -121,10 +122,11 @@ export default function RunawayLink({
   ]);
 
   const handleFocus = (e: React.FocusEvent<HTMLAnchorElement>) => {
-    if (e.target.matches(':focus-visible') && hasInteracted) {
+    if (e.target.matches(':focus-visible') && hasInteracted && !hasShownToast) {
       toast.success(
         `Congratulations! You have overcome gravitational adversity at the hands of inaccessible web design. Press Enter to visit ${href}`
       );
+      setHasShownToast(true);
       e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
     setIsHovering(false);
