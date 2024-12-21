@@ -122,7 +122,12 @@ export default function RunawayLink({
   ]);
 
   const handleFocus = (e: React.FocusEvent<HTMLAnchorElement>) => {
-    if (e.target.matches(':focus-visible') && hasInteracted && !hasShownToast) {
+    if (
+      e.target.matches(':focus-visible') &&
+      hasInteracted &&
+      !hasShownToast &&
+      !prefersReducedMotion
+    ) {
       toast.success(
         `Congratulations! You have overcome gravitational adversity at the hands of inaccessible web design. Press Enter to visit ${href}`
       );
