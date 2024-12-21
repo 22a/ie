@@ -2,7 +2,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { toast } from 'sonner';
 
-
 interface RunawayLinkProps {
   href: string;
   children: React.ReactNode;
@@ -10,11 +9,11 @@ interface RunawayLinkProps {
   maxDistance?: number;
 }
 
-export default function RunawayLink({ 
-  href, 
-  children, 
-  className = '', 
-  maxDistance = 300 
+export default function RunawayLink({
+  href,
+  children,
+  className = '',
+  maxDistance = 300,
 }: RunawayLinkProps) {
   const linkRef = useRef<HTMLAnchorElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -48,8 +47,11 @@ export default function RunawayLink({
       const deltaY = e.clientY - linkCenterY;
       const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-      const force = Math.min(1, Math.pow((maxDistance - distance) / maxDistance, 2));
-      
+      const force = Math.min(
+        1,
+        Math.pow((maxDistance - distance) / maxDistance, 2)
+      );
+
       if (distance < maxDistance) {
         setHasInteracted(true);
         const escapeX = -deltaX * force * 1.5;
@@ -57,7 +59,7 @@ export default function RunawayLink({
 
         const randomAngle = Math.random() * Math.PI * 2;
         const randomness = 15 * force;
-        
+
         setPosition({
           x: escapeX + Math.cos(randomAngle) * randomness,
           y: escapeY + Math.sin(randomAngle) * randomness,
@@ -76,7 +78,9 @@ export default function RunawayLink({
 
   const handleFocus = (e: React.FocusEvent<HTMLAnchorElement>) => {
     if (e.target.matches(':focus-visible') && hasInteracted) {
-      toast.info(`Nice try! Press Enter to visit ${href}`);
+      toast.success(
+        `Congratulations! You have overcome gravitational adversity at the hands of inaccessible web design. Press Enter to visit ${href}`
+      );
     }
     setIsHovering(false);
     setPosition({ x: 0, y: 0 });
@@ -88,7 +92,9 @@ export default function RunawayLink({
       href={href}
       className={className}
       style={{
-        transform: prefersReducedMotion ? 'none' : `translate(${position.x}px, ${position.y}px)`,
+        transform: prefersReducedMotion
+          ? 'none'
+          : `translate(${position.x}px, ${position.y}px)`,
         transition: prefersReducedMotion ? 'none' : 'transform 0.05s ease-out',
         display: 'inline-block',
         willChange: prefersReducedMotion ? 'auto' : 'transform',
@@ -103,4 +109,4 @@ export default function RunawayLink({
       {children}
     </a>
   );
-} 
+}

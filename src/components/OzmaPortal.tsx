@@ -8,38 +8,39 @@ export default function OzmaPortal() {
   useEffect(() => {
     // Three.js setup
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ 
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000
+    );
+    const renderer = new THREE.WebGLRenderer({
       antialias: true,
-      alpha: true  // Enable transparency
+      alpha: true, // Enable transparency
     });
     renderer.setClearColor(0x000000, 0); // Set clear color to transparent
-    
+
     if (mountRef.current) {
       renderer.setSize(window.innerWidth, window.innerHeight);
       mountRef.current.appendChild(renderer.domElement);
     }
 
     // Create a smoother icosahedron with more subdivisions
-    const geometry = new THREE.IcosahedronGeometry(2, 4);  // Increased detail level from default to 4
-    
+    const geometry = new THREE.IcosahedronGeometry(2, 4); // Increased detail level from default to 4
+
     // Add some vertex displacement to soften edges
     const positions = geometry.attributes.position;
     const vertex = new THREE.Vector3();
-    
-    for(let i = 0; i < positions.count; i++) {
-        vertex.fromBufferAttribute(positions, i);
-        vertex.normalize();
-        vertex.multiplyScalar(1.8 + Math.random() * 0.2); // Slight random variation
-        positions.setXYZ(i, vertex.x, vertex.y, vertex.z);
+
+    for (let i = 0; i < positions.count; i++) {
+      vertex.fromBufferAttribute(positions, i);
+      vertex.normalize();
+      vertex.multiplyScalar(1.8 + Math.random() * 0.2); // Slight random variation
+      positions.setXYZ(i, vertex.x, vertex.y, vertex.z);
     }
-    
+
     geometry.computeVertexNormals(); // Recalculate normals for smooth shading
 
-    const initialPositions = positions.array.slice(); // Store initial positions
-    const faceCount = geometry.attributes.position.count / 3;
-    const faceOffsets = new Array(faceCount).fill(0).map(() => Math.random() * 10); // Random starting phase for each face
-    
     const vertexShader = `
       varying vec2 vUv;
       varying vec3 vPosition;
@@ -191,11 +192,11 @@ export default function OzmaPortal() {
 
     const material = new THREE.ShaderMaterial({
       uniforms: {
-        time: { value: 0 }
+        time: { value: 0 },
       },
       vertexShader,
       fragmentShader,
-      side: THREE.DoubleSide
+      side: THREE.DoubleSide,
     });
     const polygon = new THREE.Mesh(geometry, material);
 
@@ -206,76 +207,63 @@ export default function OzmaPortal() {
 
     // After creating the first polygon
     const innerGeometry = new THREE.IcosahedronGeometry(1.2, 4); // Smaller radius
-    
+
     // Add vertex displacement to inner sphere
     const innerPositions = innerGeometry.attributes.position;
     const innerVertex = new THREE.Vector3();
-    
-    for(let i = 0; i < innerPositions.count; i++) {
-        innerVertex.fromBufferAttribute(innerPositions, i);
-        innerVertex.normalize();
-        innerVertex.multiplyScalar(1.0 + Math.random() * 0.1);
-        innerPositions.setXYZ(i, innerVertex.x, innerVertex.y, innerVertex.z);
+
+    for (let i = 0; i < innerPositions.count; i++) {
+      innerVertex.fromBufferAttribute(innerPositions, i);
+      innerVertex.normalize();
+      innerVertex.multiplyScalar(1.0 + Math.random() * 0.1);
+      innerPositions.setXYZ(i, innerVertex.x, innerVertex.y, innerVertex.z);
     }
-    
+
     innerGeometry.computeVertexNormals();
-    
-    const innerInitialPositions = innerPositions.array.slice();
-    const innerFaceCount = innerGeometry.attributes.position.count / 3;
-    const innerFaceOffsets = new Array(innerFaceCount).fill(0).map(() => Math.random() * 10);
-    
+
     const innerPolygon = new THREE.Mesh(innerGeometry, material); // Using same material
     scene.add(innerPolygon);
-    
-    // Animation function
-    const animate = () => {
-      requestAnimationFrame(animate);
-      
-      // Outer polygon animation
-      for(let face = 0; face < faceCount; face++) {
-        const faceScale = 1.0 + Math.sin(time * 0.5 + faceOffsets[face]) * 0.1;
-        for(let i = 0; i < 3; i++) {
-          const vertexIndex = face * 3 + i;
-          const i3 = vertexIndex * 3;
-          positions.setXYZ(
-            vertexIndex,
-            initialPositions[i3] * faceScale,
-            initialPositions[i3 + 1] * faceScale,
-            initialPositions[i3 + 2] * faceScale
-          );
-        }
-      }
-      positions.needsUpdate = true;
-      
-      // Inner polygon animation (opposite phase)
-      for(let face = 0; face < innerFaceCount; face++) {
-        const faceScale = 1.0 + Math.sin(time * 0.5 + innerFaceOffsets[face] + Math.PI) * 0.1;
-        for(let i = 0; i < 3; i++) {
-          const vertexIndex = face * 3 + i;
-          const i3 = vertexIndex * 3;
-          innerPositions.setXYZ(
-            vertexIndex,
-            innerInitialPositions[i3] * faceScale,
-            innerInitialPositions[i3 + 1] * faceScale,
-            innerInitialPositions[i3 + 2] * faceScale
-          );
-        }
-      }
-      innerPositions.needsUpdate = true;
-      
-      // Rotate in opposite directions
-      polygon.rotation.x += 0.005;
-      polygon.rotation.y += 0.005;
-      innerPolygon.rotation.x -= 0.003;
-      innerPolygon.rotation.y -= 0.003;
-      
-      material.uniforms.time.value += 0.02;
-      time += 0.01;
-      
-      renderer.render(scene, camera);
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+
+    // Add mouse move handler
+    const handleMouseMove = (event: MouseEvent) => {
+      mouseX = event.clientX;
+      mouseY = event.clientY;
     };
 
-    let time = 0; // Add this before animate()
+    window.addEventListener('mousemove', handleMouseMove);
+
+    // Animation function
+    const animate = () => {
+      let time = 0;
+      requestAnimationFrame(animate);
+
+      // Calculate distance from center of screen
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      const deltaX = mouseX - centerX;
+      const deltaY = mouseY - centerY;
+      const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+      // Calculate speed multiplier (1 at edges, 0.2 at center)
+      const maxDistance = Math.sqrt(
+        (window.innerWidth / 2) ** 2 + (window.innerHeight / 2) ** 2
+      );
+      const speedMultiplier = 0.2 + (distance / maxDistance) * 0.8;
+
+      // Apply speed multiplier to all animations
+      polygon.rotation.x += 0.005 * speedMultiplier;
+      polygon.rotation.y += 0.005 * speedMultiplier;
+      innerPolygon.rotation.x -= 0.003 * speedMultiplier;
+      innerPolygon.rotation.y -= 0.003 * speedMultiplier;
+
+      material.uniforms.time.value += 0.02 * speedMultiplier;
+      time += 0.01 * speedMultiplier;
+
+      renderer.render(scene, camera);
+    };
 
     animate();
 
@@ -290,10 +278,11 @@ export default function OzmaPortal() {
 
     // Store ref in variable for cleanup
     const mount = mountRef.current;
-    
+
     // Cleanup
     return () => {
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('mousemove', handleMouseMove);
       if (mount) {
         mount.removeChild(renderer.domElement);
       }
@@ -303,4 +292,4 @@ export default function OzmaPortal() {
   return (
     <div ref={mountRef} data-canvas-container className="absolute inset-0" />
   );
-} 
+}
