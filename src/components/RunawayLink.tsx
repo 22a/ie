@@ -1,5 +1,7 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
+import { toast } from 'sonner';
+
 
 interface RunawayLinkProps {
   href: string;
@@ -17,8 +19,24 @@ export default function RunawayLink({
   const linkRef = useRef<HTMLAnchorElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(mediaQuery.matches);
+
+    const onChange = (event: MediaQueryListEvent) => {
+      setPrefersReducedMotion(event.matches);
+    };
+
+    mediaQuery.addEventListener('change', onChange);
+    return () => mediaQuery.removeEventListener('change', onChange);
+  }, []);
+
+  useEffect(() => {
+    if (prefersReducedMotion) return;
+
     const handleMouseMove = (e: MouseEvent) => {
       if (!linkRef.current || !isHovering) return;
 
@@ -33,6 +51,7 @@ export default function RunawayLink({
       const force = Math.min(1, Math.pow((maxDistance - distance) / maxDistance, 2));
       
       if (distance < maxDistance) {
+        setHasInteracted(true);
         const escapeX = -deltaX * force * 1.5;
         const escapeY = -deltaY * force * 1.5;
 
@@ -53,7 +72,15 @@ export default function RunawayLink({
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [isHovering, maxDistance, position]);
+  }, [isHovering, maxDistance, position, prefersReducedMotion]);
+
+  const handleFocus = (e: React.FocusEvent<HTMLAnchorElement>) => {
+    if (e.target.matches(':focus-visible') && hasInteracted) {
+      toast.info(`Nice try! Press Enter to visit ${href}`);
+    }
+    setIsHovering(false);
+    setPosition({ x: 0, y: 0 });
+  };
 
   return (
     <a
@@ -61,20 +88,17 @@ export default function RunawayLink({
       href={href}
       className={className}
       style={{
-        transform: `translate(${position.x}px, ${position.y}px)`,
-        transition: 'transform 0.05s ease-out',
+        transform: prefersReducedMotion ? 'none' : `translate(${position.x}px, ${position.y}px)`,
+        transition: prefersReducedMotion ? 'none' : 'transform 0.05s ease-out',
         display: 'inline-block',
-        willChange: 'transform',
+        willChange: prefersReducedMotion ? 'auto' : 'transform',
       }}
-      onMouseEnter={() => setIsHovering(true)}
+      onMouseEnter={() => !prefersReducedMotion && setIsHovering(true)}
       onMouseLeave={() => {
         setIsHovering(false);
         setPosition({ x: 0, y: 0 });
       }}
-      onFocus={() => {
-        setIsHovering(false);
-        setPosition({ x: 0, y: 0 });
-      }}
+      onFocus={handleFocus}
     >
       {children}
     </a>

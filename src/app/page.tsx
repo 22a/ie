@@ -11,13 +11,13 @@ export default function Home() {
           <h1 className="text-4xl font-bold">Welcome to My Website</h1>
           <div className="mt-4 flex justify-center gap-4">
             <RunawayLink
-              href="https://github.com/YOUR_USERNAME"
+              href="https://github.com/22a"
               className="bg-foreground/50 text-background rounded px-2 py-1 transition-colors"
             >
               GitHub
             </RunawayLink>
             <RunawayLink
-              href="https://linkedin.com/in/YOUR_USERNAME"
+              href="https://linkedin.com/in/meehanp2"
               className="bg-foreground/50 text-background rounded px-2 py-1 transition-colors"
             >
               LinkedIn
