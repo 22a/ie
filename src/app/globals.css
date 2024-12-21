@@ -14,12 +14,7 @@
   }
 }
 
-html, body {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-}
-
 body {
-  font-family: Arial, Helvetica, sans-serif;
+font-family: system-ui, sans-serif;
+font-weight: normal;
 }
