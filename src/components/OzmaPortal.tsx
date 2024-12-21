@@ -56,61 +56,55 @@ export default function OzmaPortal() {
       varying vec2 vUv;
       varying vec3 vPosition;
       
+      // Noise function for more organic movement
+      float noise(vec2 p) {
+        return sin(p.x * 10.0) * sin(p.y * 10.0);
+      }
+      
       void main() {
         vec2 center = vec2(0.5, 0.5);
         vec2 pos = vUv - center;
         float dist = length(pos);
-        
         float angle = atan(pos.y, pos.x);
         
-        // Enhanced spiral effect with pulse
-        float spiral = sin(dist * 15.0 - time * 2.0 + angle * 3.0 + sin(time) * 2.0) * 0.3;
+        // Shore wave effect
+        float waveCount = 8.0;
+        float waveSpeed = 2.0;
+        float shoreLine = sin(dist * waveCount - time * waveSpeed) * 0.5 + 0.5;
+        shoreLine *= smoothstep(1.0, 0.2, dist); // Fade towards center
         
-        // More dynamic ripple effect
-        float ripple = sin(dist * 20.0 - time * 3.0) * 0.2 * (1.0 + sin(time * 0.5) * 0.5);
+        // Foam effect
+        float foam = pow(shoreLine, 3.0) * 
+                    (0.5 + 0.5 * sin(time * 3.0 + noise(pos * 10.0 + time)));
         
-        // Added vortex effect
-        float vortex = sin(angle * 8.0 + dist * 10.0 - time * 4.0) * 0.2;
+        // Shimmer effect
+        float shimmer = pow(sin(time * 2.0 + dist * 30.0 + angle * 5.0) * 0.5 + 0.5, 4.0) * 
+                       (0.4 + 0.6 * sin(time + noise(pos * 5.0)));
         
-        // Pulsing waves
-        float waves = sin(angle * 6.0 + time * 4.0) * (0.3 + sin(time) * 0.1);
+        // Water ripples
+        float ripples = sin(dist * 20.0 - time * 3.0 + noise(pos * 2.0)) * 0.2 * 
+                       (1.0 + sin(time * 0.5) * 0.5);
         
-        float pattern = smoothstep(0.0, 1.0, spiral + ripple + waves + vortex);
+        // Base water colors
+        vec3 deepWater = vec3(0.0, 0.3, 0.5) * (1.0 + sin(time * 0.5) * 0.2);
+        vec3 shallowWater = vec3(0.0, 0.6, 0.8) * (1.0 + sin(time * 0.7) * 0.2);
+        vec3 foamColor = vec3(0.8, 0.9, 1.0);
         
-        // More vibrant, shifting colors
-        vec3 color1 = vec3(0.3, 0.8, 1.0) * (1.0 + sin(time * 0.5) * 0.2);
-        vec3 color2 = vec3(0.9, 0.3, 0.8) * (1.0 + cos(time * 0.6) * 0.2);
-        vec3 color3 = vec3(0.7, 0.4, 1.0) * (1.0 + sin(time * 0.7) * 0.2);
-        vec3 color4 = vec3(0.2, 0.9, 0.5) * (1.0 + cos(time * 0.8) * 0.2);
-        vec3 color5 = vec3(0.9, 0.8, 0.3) * (1.0 + sin(time * 0.9) * 0.2);
+        // Mix water colors based on depth simulation
+        vec3 waterColor = mix(deepWater, shallowWater, shoreLine + ripples);
         
-        // Enhanced color mixing
-        float colorMix1 = smoothstep(0.0, 1.0, sin(time + dist * 3.0 + pattern) * 0.5 + 0.5);
-        float colorMix2 = smoothstep(0.0, 1.0, cos(time * 0.5 + angle * 1.5 + vortex) * 0.5 + 0.5);
-        float colorMix3 = smoothstep(0.0, 1.0, sin(time * 0.7 + pattern * 2.0 + spiral) * 0.5 + 0.5);
+        // Add foam and shimmer
+        vec3 finalColor = mix(waterColor, foamColor, foam);
+        finalColor += shimmer * foamColor * 0.5;
         
-        vec3 finalColor = mix(
-          mix(
-            mix(color1, color2, colorMix1),
-            mix(color3, color4, colorMix2),
-            colorMix3
-          ),
-          color5,
-          smoothstep(0.0, 1.0, sin(time * 1.5 + length(pos) * 8.0) * 0.5 + 0.5)
-        );
-        
-        // Enhanced sparkle effect with pulse
-        float sparkle = pow(sin(time * 2.0 + dist * 30.0 + angle * 5.0) * 0.5 + 0.5, 8.0) * 
-                       (0.3 + sin(time) * 0.1);
-        
-        // Add edge glow
+        // Edge highlight
         float edge = smoothstep(0.8, 1.0, dist) * 0.5;
-        finalColor += vec3(edge) * vec3(0.5, 0.8, 1.0);
+        finalColor += vec3(edge) * vec3(0.7, 0.9, 1.0);
         
-        // Add sparkle
-        finalColor += vec3(sparkle);
+        // Adjust opacity for a water-like transparency
+        float alpha = 0.8 + shimmer * 0.2;
         
-        gl_FragColor = vec4(finalColor, 1.0);
+        gl_FragColor = vec4(finalColor, alpha);
       }
     `;
 
