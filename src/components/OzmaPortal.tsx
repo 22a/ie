@@ -20,8 +20,24 @@ export default function OzmaPortal() {
       mountRef.current.appendChild(renderer.domElement);
     }
 
-    // Create an icosahedron (20-faced polygon)
-    const geometry = new THREE.IcosahedronGeometry(2);
+    // Create a smoother icosahedron with more subdivisions
+    const geometry = new THREE.IcosahedronGeometry(2, 4);  // Increased detail level from default to 4
+    
+    // Add some vertex displacement to soften edges
+    const positions = geometry.attributes.position;
+    const vertex = new THREE.Vector3();
+    
+    for(let i = 0; i < positions.count; i++) {
+        vertex.fromBufferAttribute(positions, i);
+        vertex.normalize();
+        vertex.multiplyScalar(1.8 + Math.random() * 0.2); // Slight random variation
+        positions.setXYZ(i, vertex.x, vertex.y, vertex.z);
+    }
+    
+    geometry.computeVertexNormals(); // Recalculate normals for smooth shading
+
+    const initialPositions = positions.array.slice(); // Store initial positions
+    
     const vertexShader = `
       varying vec2 vUv;
       varying vec3 vPosition;
@@ -44,25 +60,24 @@ export default function OzmaPortal() {
         float dist = length(pos);
         
         float angle = atan(pos.y, pos.x);
-        float spiral = sin(dist * 20.0 - time * 2.0 + angle * 5.0);
-        float ripple = sin(dist * 40.0 - time * 3.0) * 0.5;
-        float waves = sin(angle * 10.0 + time * 4.0) * 0.5;
+        float spiral = sin(dist * 15.0 - time * 2.0 + angle * 3.0) * 0.3;  // Reduced frequency and amplitude
+        float ripple = sin(dist * 20.0 - time * 3.0) * 0.2;                // Reduced frequency and amplitude
+        float waves = sin(angle * 6.0 + time * 4.0) * 0.3;                 // Reduced frequency
         
-        float pattern = spiral + ripple + waves;
+        float pattern = smoothstep(0.0, 1.0, spiral + ripple + waves);     // Smoothstep for softer transitions
         
-        // More vibrant base colors
-        vec3 color1 = vec3(0.2, 0.8, 1.0);   // Bright cyan
-        vec3 color2 = vec3(1.0, 0.2, 0.8);   // Hot pink
-        vec3 color3 = vec3(0.8, 0.3, 1.0);   // Purple
-        vec3 color4 = vec3(0.1, 1.0, 0.5);   // Bright green
-        vec3 color5 = vec3(1.0, 0.8, 0.2);   // Gold
+        // More vibrant base colors with slightly reduced contrast
+        vec3 color1 = vec3(0.3, 0.8, 1.0);   // Softened cyan
+        vec3 color2 = vec3(0.9, 0.3, 0.8);   // Softened pink
+        vec3 color3 = vec3(0.7, 0.4, 1.0);   // Softened purple
+        vec3 color4 = vec3(0.2, 0.9, 0.5);   // Softened green
+        vec3 color5 = vec3(0.9, 0.8, 0.3);   // Softened gold
         
-        // Multiple color transitions based on different parameters
-        float colorMix1 = sin(time + dist * 5.0) * 0.5 + 0.5;
-        float colorMix2 = cos(time * 0.5 + angle * 2.0) * 0.5 + 0.5;
-        float colorMix3 = sin(time * 0.7 + pattern * 3.0) * 0.5 + 0.5;
+        // Smoother color transitions
+        float colorMix1 = smoothstep(0.0, 1.0, sin(time + dist * 3.0) * 0.5 + 0.5);
+        float colorMix2 = smoothstep(0.0, 1.0, cos(time * 0.5 + angle * 1.5) * 0.5 + 0.5);
+        float colorMix3 = smoothstep(0.0, 1.0, sin(time * 0.7 + pattern * 2.0) * 0.5 + 0.5);
         
-        // Complex color mixing
         vec3 finalColor = mix(
           mix(
             mix(color1, color2, colorMix1),
@@ -70,11 +85,11 @@ export default function OzmaPortal() {
             colorMix3
           ),
           color5,
-          sin(time * 2.0 + length(pos) * 10.0) * 0.5 + 0.5
+          smoothstep(0.0, 1.0, sin(time * 1.5 + length(pos) * 8.0) * 0.5 + 0.5)
         );
         
-        // Add some sparkle effect
-        float sparkle = pow(sin(time * 3.0 + dist * 50.0) * 0.5 + 0.5, 5.0);
+        // Softer sparkle
+        float sparkle = pow(sin(time * 2.0 + dist * 30.0) * 0.5 + 0.5, 8.0) * 0.3;
         finalColor += vec3(sparkle);
         
         gl_FragColor = vec4(finalColor, 1.0);
@@ -100,14 +115,33 @@ export default function OzmaPortal() {
     const animate = () => {
       requestAnimationFrame(animate);
       
+      // Slow breathing effect
+      const breathingScale = 1.0 + Math.sin(time * 0.5) * 0.1; // Scale varies between 0.9 and 1.1
+      
+      // Update vertex positions
+      for(let i = 0; i < positions.count; i++) {
+        const i3 = i * 3;
+        positions.setXYZ(
+          i,
+          initialPositions[i3] * breathingScale * (1 + Math.sin(time + i) * 0.02),
+          initialPositions[i3 + 1] * breathingScale * (1 + Math.sin(time + i + 2) * 0.02),
+          initialPositions[i3 + 2] * breathingScale * (1 + Math.sin(time + i + 4) * 0.02)
+        );
+      }
+      positions.needsUpdate = true;
+      
       // Rotate the polygon
       polygon.rotation.x += 0.005;
       polygon.rotation.y += 0.005;
       
       material.uniforms.time.value += 0.02;
-
+      
+      time += 0.01; // Add this line to track time
+      
       renderer.render(scene, camera);
     };
+
+    let time = 0; // Add this before animate()
 
     animate();
 
