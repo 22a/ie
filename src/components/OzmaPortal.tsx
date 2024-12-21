@@ -37,6 +37,8 @@ export default function OzmaPortal() {
     geometry.computeVertexNormals(); // Recalculate normals for smooth shading
 
     const initialPositions = positions.array.slice(); // Store initial positions
+    const faceCount = geometry.attributes.position.count / 3;
+    const faceOffsets = new Array(faceCount).fill(0).map(() => Math.random() * 10); // Random starting phase for each face
     
     const vertexShader = `
       varying vec2 vUv;
@@ -111,32 +113,73 @@ export default function OzmaPortal() {
 
     camera.position.z = 5;
 
+    // After creating the first polygon
+    const innerGeometry = new THREE.IcosahedronGeometry(1.2, 4); // Smaller radius
+    
+    // Add vertex displacement to inner sphere
+    const innerPositions = innerGeometry.attributes.position;
+    const innerVertex = new THREE.Vector3();
+    
+    for(let i = 0; i < innerPositions.count; i++) {
+        innerVertex.fromBufferAttribute(innerPositions, i);
+        innerVertex.normalize();
+        innerVertex.multiplyScalar(1.0 + Math.random() * 0.1);
+        innerPositions.setXYZ(i, innerVertex.x, innerVertex.y, innerVertex.z);
+    }
+    
+    innerGeometry.computeVertexNormals();
+    
+    const innerInitialPositions = innerPositions.array.slice();
+    const innerFaceCount = innerGeometry.attributes.position.count / 3;
+    const innerFaceOffsets = new Array(innerFaceCount).fill(0).map(() => Math.random() * 10);
+    
+    const innerPolygon = new THREE.Mesh(innerGeometry, material); // Using same material
+    scene.add(innerPolygon);
+    
     // Animation function
     const animate = () => {
       requestAnimationFrame(animate);
       
-      // Slow breathing effect
-      const breathingScale = 1.0 + Math.sin(time * 0.5) * 0.1; // Scale varies between 0.9 and 1.1
-      
-      // Update vertex positions
-      for(let i = 0; i < positions.count; i++) {
-        const i3 = i * 3;
-        positions.setXYZ(
-          i,
-          initialPositions[i3] * breathingScale * (1 + Math.sin(time + i) * 0.02),
-          initialPositions[i3 + 1] * breathingScale * (1 + Math.sin(time + i + 2) * 0.02),
-          initialPositions[i3 + 2] * breathingScale * (1 + Math.sin(time + i + 4) * 0.02)
-        );
+      // Outer polygon animation
+      for(let face = 0; face < faceCount; face++) {
+        const faceScale = 1.0 + Math.sin(time * 0.5 + faceOffsets[face]) * 0.1;
+        for(let i = 0; i < 3; i++) {
+          const vertexIndex = face * 3 + i;
+          const i3 = vertexIndex * 3;
+          positions.setXYZ(
+            vertexIndex,
+            initialPositions[i3] * faceScale,
+            initialPositions[i3 + 1] * faceScale,
+            initialPositions[i3 + 2] * faceScale
+          );
+        }
       }
       positions.needsUpdate = true;
       
-      // Rotate the polygon
+      // Inner polygon animation (opposite phase)
+      for(let face = 0; face < innerFaceCount; face++) {
+        const faceScale = 1.0 + Math.sin(time * 0.5 + innerFaceOffsets[face] + Math.PI) * 0.1;
+        for(let i = 0; i < 3; i++) {
+          const vertexIndex = face * 3 + i;
+          const i3 = vertexIndex * 3;
+          innerPositions.setXYZ(
+            vertexIndex,
+            innerInitialPositions[i3] * faceScale,
+            innerInitialPositions[i3 + 1] * faceScale,
+            innerInitialPositions[i3 + 2] * faceScale
+          );
+        }
+      }
+      innerPositions.needsUpdate = true;
+      
+      // Rotate in opposite directions
       polygon.rotation.x += 0.005;
       polygon.rotation.y += 0.005;
+      innerPolygon.rotation.x -= 0.003;
+      innerPolygon.rotation.y -= 0.003;
       
       material.uniforms.time.value += 0.02;
-      
-      time += 0.01; // Add this line to track time
+      time += 0.01;
       
       renderer.render(scene, camera);
     };
