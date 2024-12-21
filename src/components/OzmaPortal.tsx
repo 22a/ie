@@ -6,7 +6,10 @@ export default function OzmaPortal() {
   const mountRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Three.js setup
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       75,
@@ -16,30 +19,28 @@ export default function OzmaPortal() {
     );
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
-      alpha: true, // Enable transparency
+      alpha: true,
     });
-    renderer.setClearColor(0x000000, 0); // Set clear color to transparent
+    renderer.setClearColor(0x000000, 0);
 
     if (mountRef.current) {
       renderer.setSize(window.innerWidth, window.innerHeight);
       mountRef.current.appendChild(renderer.domElement);
     }
 
-    // Create a smoother icosahedron with more subdivisions
-    const geometry = new THREE.IcosahedronGeometry(2, 4); // Increased detail level from default to 4
+    const geometry = new THREE.IcosahedronGeometry(2, 4);
 
-    // Add some vertex displacement to soften edges
     const positions = geometry.attributes.position;
     const vertex = new THREE.Vector3();
 
     for (let i = 0; i < positions.count; i++) {
       vertex.fromBufferAttribute(positions, i);
       vertex.normalize();
-      vertex.multiplyScalar(1.8 + Math.random() * 0.2); // Slight random variation
+      vertex.multiplyScalar(1.8 + Math.random() * 0.2);
       positions.setXYZ(i, vertex.x, vertex.y, vertex.z);
     }
 
-    geometry.computeVertexNormals(); // Recalculate normals for smooth shading
+    geometry.computeVertexNormals();
 
     const vertexShader = `
       varying vec2 vUv;
@@ -200,15 +201,12 @@ export default function OzmaPortal() {
     });
     const polygon = new THREE.Mesh(geometry, material);
 
-    // Add polygon to scene
     scene.add(polygon);
 
     camera.position.z = 5;
 
-    // After creating the first polygon
-    const innerGeometry = new THREE.IcosahedronGeometry(1.2, 4); // Smaller radius
+    const innerGeometry = new THREE.IcosahedronGeometry(1.2, 4);
 
-    // Add vertex displacement to inner sphere
     const innerPositions = innerGeometry.attributes.position;
     const innerVertex = new THREE.Vector3();
 
@@ -221,13 +219,12 @@ export default function OzmaPortal() {
 
     innerGeometry.computeVertexNormals();
 
-    const innerPolygon = new THREE.Mesh(innerGeometry, material); // Using same material
+    const innerPolygon = new THREE.Mesh(innerGeometry, material);
     scene.add(innerPolygon);
 
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
 
-    // Add mouse move handler
     const handleMouseMove = (event: MouseEvent) => {
       mouseX = event.clientX;
       mouseY = event.clientY;
@@ -235,32 +232,28 @@ export default function OzmaPortal() {
 
     window.addEventListener('mousemove', handleMouseMove);
 
-    // Animation function
     const animate = () => {
-      let time = 0;
       requestAnimationFrame(animate);
 
-      // Calculate distance from center of screen
-      const centerX = window.innerWidth / 2;
-      const centerY = window.innerHeight / 2;
-      const deltaX = mouseX - centerX;
-      const deltaY = mouseY - centerY;
-      const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+      if (!prefersReducedMotion) {
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        const deltaX = mouseX - centerX;
+        const deltaY = mouseY - centerY;
+        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-      // Calculate speed multiplier (1 at edges, 0.2 at center)
-      const maxDistance = Math.sqrt(
-        (window.innerWidth / 2) ** 2 + (window.innerHeight / 2) ** 2
-      );
-      const speedMultiplier = 0.2 + (distance / maxDistance) * 0.8;
+        const maxDistance = Math.sqrt(
+          (window.innerWidth / 2) ** 2 + (window.innerHeight / 2) ** 2
+        );
+        const speedMultiplier = 0.2 + (distance / maxDistance) * 0.8;
 
-      // Apply speed multiplier to all animations
-      polygon.rotation.x += 0.005 * speedMultiplier;
-      polygon.rotation.y += 0.005 * speedMultiplier;
-      innerPolygon.rotation.x -= 0.003 * speedMultiplier;
-      innerPolygon.rotation.y -= 0.003 * speedMultiplier;
+        polygon.rotation.x += 0.005 * speedMultiplier;
+        polygon.rotation.y += 0.005 * speedMultiplier;
+        innerPolygon.rotation.x -= 0.003 * speedMultiplier;
+        innerPolygon.rotation.y -= 0.003 * speedMultiplier;
 
-      material.uniforms.time.value += 0.02 * speedMultiplier;
-      time += 0.01 * speedMultiplier;
+        material.uniforms.time.value += 0.02 * speedMultiplier;
+      }
 
       renderer.render(scene, camera);
     };
@@ -276,10 +269,8 @@ export default function OzmaPortal() {
 
     window.addEventListener('resize', handleResize);
 
-    // Store ref in variable for cleanup
     const mount = mountRef.current;
 
-    // Cleanup
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
