@@ -61,50 +61,52 @@ export default function RunawayLink({
       const linkCenterX = link.left + link.width / 2;
       const linkCenterY = link.top + link.height / 2;
 
+      const initialRect = linkRef.current.getBoundingClientRect();
+      const initialX = initialRect.left;
+      const initialY = initialRect.top;
+
       const deltaX = e.clientX - linkCenterX;
       const deltaY = e.clientY - linkCenterY;
-      const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-      const force = Math.min(
-        1,
-        Math.pow((maxDistance - distance) / maxDistance, 2)
-      );
+      const force = 1;
 
-      if (distance < maxDistance) {
-        setHasInteracted(true);
-        const escapeX = -deltaX * force * 1.2 + velocity.x * 0.6;
-        const escapeY = -deltaY * force * 1.2 + velocity.y * 0.6;
+      setHasInteracted(true);
+      const escapeX = -deltaX * force * 1.2 + velocity.x * 0.6;
+      const escapeY = -deltaY * force * 1.2 + velocity.y * 0.6;
 
-        const randomAngle = Math.random() * Math.PI * 2;
-        const randomness = 12 * force;
+      const randomAngle = Math.random() * Math.PI * 2;
+      const randomness = 12 * force;
 
-        let newX = escapeX + Math.cos(randomAngle) * randomness;
-        let newY = escapeY + Math.sin(randomAngle) * randomness;
+      let newX = escapeX + Math.cos(randomAngle) * randomness;
+      let newY = escapeY + Math.sin(randomAngle) * randomness;
 
-        let nextX = position.x + newX;
-        let nextY = position.y + newY;
+      let nextX = position.x + newX;
+      let nextY = position.y + newY;
 
-        if (nextX < 0 || nextX + linkWidth > viewportSize.width) {
-          newX = -newX * 0.8;
-          nextX = nextX < 0 ? 0 : viewportSize.width - linkWidth;
-        }
-        if (nextY < 0 || nextY + linkHeight > viewportSize.height) {
-          newY = -newY * 0.8;
-          nextY = nextY < 0 ? 0 : viewportSize.height - linkHeight;
-        }
+      const padding = 16;
+      const minX = -initialX + padding;
+      const maxX = viewportSize.width - initialX - linkWidth - padding;
+      const minY = -initialY + padding;
+      const maxY = viewportSize.height - initialY - linkHeight - padding;
 
-        setPosition({ x: nextX, y: nextY });
-        setVelocity({ x: newX, y: newY });
-      } else {
-        setVelocity((prev) => ({
-          x: prev.x * 0.9,
-          y: prev.y * 0.9,
-        }));
-        setPosition((prev) => ({
-          x: prev.x + velocity.x,
-          y: prev.y * 0.9,
-        }));
+      if (nextX < minX) {
+        nextX = minX;
+        newX = 0;
+      } else if (nextX > maxX) {
+        nextX = maxX;
+        newX = 0;
       }
+
+      if (nextY < minY) {
+        nextY = minY;
+        newY = 0;
+      } else if (nextY > maxY) {
+        nextY = maxY;
+        newY = 0;
+      }
+
+      setPosition({ x: nextX, y: nextY });
+      setVelocity({ x: newX, y: newY });
     };
 
     window.addEventListener('mousemove', handleMouseMove);
