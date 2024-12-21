@@ -62,23 +62,32 @@ export default function OzmaPortal() {
         float dist = length(pos);
         
         float angle = atan(pos.y, pos.x);
-        float spiral = sin(dist * 15.0 - time * 2.0 + angle * 3.0) * 0.3;  // Reduced frequency and amplitude
-        float ripple = sin(dist * 20.0 - time * 3.0) * 0.2;                // Reduced frequency and amplitude
-        float waves = sin(angle * 6.0 + time * 4.0) * 0.3;                 // Reduced frequency
         
-        float pattern = smoothstep(0.0, 1.0, spiral + ripple + waves);     // Smoothstep for softer transitions
+        // Enhanced spiral effect with pulse
+        float spiral = sin(dist * 15.0 - time * 2.0 + angle * 3.0 + sin(time) * 2.0) * 0.3;
         
-        // More vibrant base colors with slightly reduced contrast
-        vec3 color1 = vec3(0.3, 0.8, 1.0);   // Softened cyan
-        vec3 color2 = vec3(0.9, 0.3, 0.8);   // Softened pink
-        vec3 color3 = vec3(0.7, 0.4, 1.0);   // Softened purple
-        vec3 color4 = vec3(0.2, 0.9, 0.5);   // Softened green
-        vec3 color5 = vec3(0.9, 0.8, 0.3);   // Softened gold
+        // More dynamic ripple effect
+        float ripple = sin(dist * 20.0 - time * 3.0) * 0.2 * (1.0 + sin(time * 0.5) * 0.5);
         
-        // Smoother color transitions
-        float colorMix1 = smoothstep(0.0, 1.0, sin(time + dist * 3.0) * 0.5 + 0.5);
-        float colorMix2 = smoothstep(0.0, 1.0, cos(time * 0.5 + angle * 1.5) * 0.5 + 0.5);
-        float colorMix3 = smoothstep(0.0, 1.0, sin(time * 0.7 + pattern * 2.0) * 0.5 + 0.5);
+        // Added vortex effect
+        float vortex = sin(angle * 8.0 + dist * 10.0 - time * 4.0) * 0.2;
+        
+        // Pulsing waves
+        float waves = sin(angle * 6.0 + time * 4.0) * (0.3 + sin(time) * 0.1);
+        
+        float pattern = smoothstep(0.0, 1.0, spiral + ripple + waves + vortex);
+        
+        // More vibrant, shifting colors
+        vec3 color1 = vec3(0.3, 0.8, 1.0) * (1.0 + sin(time * 0.5) * 0.2);
+        vec3 color2 = vec3(0.9, 0.3, 0.8) * (1.0 + cos(time * 0.6) * 0.2);
+        vec3 color3 = vec3(0.7, 0.4, 1.0) * (1.0 + sin(time * 0.7) * 0.2);
+        vec3 color4 = vec3(0.2, 0.9, 0.5) * (1.0 + cos(time * 0.8) * 0.2);
+        vec3 color5 = vec3(0.9, 0.8, 0.3) * (1.0 + sin(time * 0.9) * 0.2);
+        
+        // Enhanced color mixing
+        float colorMix1 = smoothstep(0.0, 1.0, sin(time + dist * 3.0 + pattern) * 0.5 + 0.5);
+        float colorMix2 = smoothstep(0.0, 1.0, cos(time * 0.5 + angle * 1.5 + vortex) * 0.5 + 0.5);
+        float colorMix3 = smoothstep(0.0, 1.0, sin(time * 0.7 + pattern * 2.0 + spiral) * 0.5 + 0.5);
         
         vec3 finalColor = mix(
           mix(
@@ -90,8 +99,15 @@ export default function OzmaPortal() {
           smoothstep(0.0, 1.0, sin(time * 1.5 + length(pos) * 8.0) * 0.5 + 0.5)
         );
         
-        // Softer sparkle
-        float sparkle = pow(sin(time * 2.0 + dist * 30.0) * 0.5 + 0.5, 8.0) * 0.3;
+        // Enhanced sparkle effect with pulse
+        float sparkle = pow(sin(time * 2.0 + dist * 30.0 + angle * 5.0) * 0.5 + 0.5, 8.0) * 
+                       (0.3 + sin(time) * 0.1);
+        
+        // Add edge glow
+        float edge = smoothstep(0.8, 1.0, dist) * 0.5;
+        finalColor += vec3(edge) * vec3(0.5, 0.8, 1.0);
+        
+        // Add sparkle
         finalColor += vec3(sparkle);
         
         gl_FragColor = vec4(finalColor, 1.0);
