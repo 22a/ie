@@ -5,17 +5,18 @@
 ### Setup
 
 ```bash
-yarn
+pnpm i
 ```
 
 ### Running locally
 
 ```bash
-yarn start
+pnpm dev
 ```
 
 ### Production build
 
 ```bash
-yarn build
+pnpm build
 ```
+

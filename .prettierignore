@@ -1,4 +1,3 @@
-.cache
-.pnp.js
-.yarn
-public/
+.next
+build
+node_modules 
