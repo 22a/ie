@@ -13,6 +13,7 @@ export default function Home() {
             <p className="text-sm italic ml-1">internet website</p>
 
             <div className="mt-8 flex justify-center gap-4">
+              <RunawayLink href="/cv.pdf">CV</RunawayLink>
               <RunawayLink href="https://github.com/22a">GitHub</RunawayLink>
               <RunawayLink href="https://linkedin.com/in/meehanp2">
                 LinkedIn

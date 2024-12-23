@@ -129,7 +129,7 @@ export default function RunawayLink({
       !prefersReducedMotion
     ) {
       toast.success(
-        `Congratulations! You have overcome gravitational adversity at the hands of inaccessible web design. Press Enter to visit ${href}`
+        `Congratulations, you have overcome gravitational adversity at the hands of inaccessible web design.`
       );
       setHasShownToast(true);
       e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
