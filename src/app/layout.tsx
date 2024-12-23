@@ -2,20 +2,13 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { ToastProvider } from '@/providers/ToastProvider';
 
+const baseUrl = 'https://22a.ie';
 export const metadata: Metadata = {
   title: 'Peter Meehan',
   description: "Peter Meehan's internet website",
-  keywords: 'Peter Meehan, Software',
+  keywords: 'Peter Meehan, 22a, Software',
   authors: [{ name: 'Peter Meehan' }],
-  icons: {
-    icon: [
-      { url: '/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/favicon.ico' },
-    ],
-    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
-  },
-  manifest: '/site.webmanifest',
+  metadataBase: new URL(baseUrl),
   appleWebApp: {
     title: '22a.ie',
   },
@@ -24,7 +17,7 @@ export const metadata: Metadata = {
     description: "Peter Meehan's internet website",
     type: 'website',
     locale: 'en_US',
-    url: 'https://22a.ie',
+    url: baseUrl,
     siteName: 'Peter Meehan',
     images: [
       {
