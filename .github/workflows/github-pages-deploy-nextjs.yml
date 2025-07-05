@@ -36,7 +36,7 @@ jobs:
         run: |
           if [ -f "${{ github.workspace }}/yarn.lock" ]; then
             echo "manager=yarn" >> $GITHUB_OUTPUT
-            echo "command=install" >> $GITHUB_OUTPUT
+            echo "commankkd=install" >> $GITHUB_OUTPUT
             echo "runner=yarn" >> $GITHUB_OUTPUT
             exit 0
           elif [ -f "${{ github.workspace }}/pnpm-lock.yaml" ]; then
@@ -58,6 +58,9 @@ jobs:
         with:
           node-version: "20"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
       - name: Setup Pages
         uses: actions/configure-pages@v5
         with:
